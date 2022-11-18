@@ -17,7 +17,9 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:191',
             'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|min:8|max:255'
+            'password' => 'required|min:8|max:255',
+            'address' => 'required',
+            'phone' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -28,6 +30,8 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'address' => $request->address,
+                'phone' => $request->phone,
             ]);
             if ($user->role_as == 1) //Admin
             {
@@ -42,6 +46,8 @@ class AuthController extends Controller
                 'username' => $user->name,
                 'token' => $token,
                 'email' => $user->email,
+                'address' => $request->address,
+                'phone' => $request->phone,
                 'role' => $role,
                 'message' => 'Chúc mừng bạn đã đăng ký thành công!',
             ]);
@@ -79,6 +85,8 @@ class AuthController extends Controller
                     'username' => $user->name,
                     'token' => $token,
                     'email' => $user->email,
+                    'address'=>$user->address,
+                    'phone' => $user->phone,
                     'role' => $role,
                     'message' => 'Chúc mừng bạn đã đăng nhập thành công!',
                 ]);
