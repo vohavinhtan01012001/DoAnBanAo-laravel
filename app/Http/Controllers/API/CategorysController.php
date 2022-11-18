@@ -18,6 +18,14 @@ class CategorysController extends Controller
         ]);
     }
 
+    public function allcategory(){
+        $category = Categorys::get();
+        return response()->json([
+            'status' => 200,
+            'category' => $category
+        ]);
+    }
+
 
     public function edit($id)
     {
@@ -95,12 +103,12 @@ class CategorysController extends Controller
             $category->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'Category deleted successfully'
+                'message' => 'Xóa thành công!'
             ]);
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'No Category ID Found'
+                'message' => 'Không tìm thấy ID'
             ]);
         }
     }
