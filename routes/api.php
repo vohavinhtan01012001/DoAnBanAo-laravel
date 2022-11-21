@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategorysController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\AccountController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\FrontendController;
 
 //Frontend
@@ -16,6 +17,11 @@ Route::get('home-category',[FrontendController::class, 'indexCategory']);
 Route::get('fetchproducts/{name}', [FrontendController::class, 'product']);
 Route::get('viewproductdetail/{category_slug}/{product_slug}', [FrontendController::class, 'viewproduct']);
 
+//cart
+Route::post('add-to-cart', [CartController::class, 'addtocart']);
+Route::get('cart', [CartController::class, 'viewcart']);
+Route::put('cart-updatequantity/{cart_id}/{scope}', [CartController::class, 'updatequantity']);
+Route::delete('delete-cartitem/{cart_id}', [CartController::class, 'deleteCartitem']);
 
 
 //Admin
