@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCartTable extends Migration
+class CreateOrderitemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,25 +13,28 @@ class CreateCartTable extends Migration
      */
     public function up()
     {
-        Schema::create('cart', function (Blueprint $table) {
+        Schema::create('orderitems', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('order_id')->unsigned();
+            $table->foreign('order_id')->references('id')->on('orders')->onUpdate('cascade')->onDelete('cascade');
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('product')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('size');
-            $table->integer('product_qty');
+            $table->integer('qtyM')->default(0);
+            $table->integer('qtyL')->default(0);
+            $table->integer('qtyXL')->default(0);
+            $table->float('price');
+            $table->float('sumPrice');
             $table->timestamps();
         });
     }
 
-    /**p
+    /**
      * Reverse the migrations.
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('cart');
+        Schema::dropIfExists('orderitems');
     }
 }

@@ -88,4 +88,19 @@ class FrontendController extends Controller
             ]);
         }
     }
+    public function search($key){
+        $product = Product::where('name','Like',"%$key%")->get();
+        if($product){
+            return response()->json([
+                'status'=>200,
+                'product'=>$product,
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Such Category Found'
+            ]);
+        }
+    }
 }
