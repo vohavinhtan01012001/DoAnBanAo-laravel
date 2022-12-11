@@ -32,9 +32,9 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'address' => $request->address,
                 'phone' => $request->phone,
+                'role_as' => $request->role_as,
             ]);
-            if ($user->role_as == 1) //Admin
-            {
+            if ($user->role_as == 1 || $user->role_as == 2 ) {//Admin && Nhân viên            {
                 $role = 'admin';
                 $token = $user->createToken($user->email . '_AdminToken', ['server:admin'])->plainTextToken;
             } else {
@@ -49,6 +49,7 @@ class AuthController extends Controller
                 'address' => $request->address,
                 'phone' => $request->phone,
                 'role' => $role,
+                'role_as' => $request->role_as,
                 'message' => 'Chúc mừng bạn đã đăng ký thành công!',
             ]);
         }
@@ -72,7 +73,7 @@ class AuthController extends Controller
                     'message' => 'Thông tin đăng nhập không hợp lệ!',
                 ]);
             } else {
-                if ($user->role_as == 1) //Admin
+                if ($user->role_as == 1 || $user->role_as == 2 ) //Admin && Nhân viên 
                 {
                     $role = 'admin';
                     $token = $user->createToken($user->email . '_AdminToken', ['server:admin'])->plainTextToken;

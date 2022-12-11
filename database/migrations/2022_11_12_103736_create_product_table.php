@@ -19,6 +19,8 @@ class CreateProductTable extends Migration
             $table->foreign('category_id')->references('id')->on('categorys')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->float('price');
+            $table->bigInteger('promotion_id')->unsigned();
+            $table->foreign('promotion_id')->references('id')->on('promotion')->onUpdate('cascade')->onDelete('cascade');
             $table->string('image');
             $table->string('image2');
             $table->string('image3');

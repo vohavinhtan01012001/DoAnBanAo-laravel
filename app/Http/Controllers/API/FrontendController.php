@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categorys;
+use App\Models\Order;
+use App\Models\Orderitems;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -103,4 +105,30 @@ class FrontendController extends Controller
             ]);
         }
     }
+    
+    public function viewOrder(){
+        $orders = Order::all();
+        return response()->json([
+            'status' => 200,
+            'orders' => $orders,
+        ]);
+    }
+
+    public function detailOrderItems($order_id)
+    {
+        $orderItems = Orderitems::where('order_id',$order_id)->get();
+        if($orderItems){
+            return response()->json([
+                'status' => 200,
+                'orderItems' => $orderItems,
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>404,
+                'message'=>'Không tìm thấy ID'
+            ]);
+        }
+    }
+
 }

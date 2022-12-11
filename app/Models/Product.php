@@ -13,6 +13,7 @@ class Product extends Model
         'category_id',
         'name',
         'price',
+        'promotion_id',
         'quantityM',
         'quantityL',
         'quantityXL',
@@ -23,8 +24,11 @@ class Product extends Model
         'description'
     ];
 
-    protected $with = ['categorys'];
+    protected $with = ['categorys','promotion'];
     public function categorys(){
         return $this->belongsTo(Categorys::class, 'category_id','id');
+    }
+    public function promotion(){
+        return $this->belongsTo(Promotion::class, 'promotion_id','id');
     }
 }

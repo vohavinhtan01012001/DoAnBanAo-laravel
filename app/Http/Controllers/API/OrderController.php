@@ -17,22 +17,16 @@ class OrderController extends Controller
             'orders' => $orders,
         ]);
     }
-    public function indexOrder()
+
+    public function indexOrderId($id)
     {
-        if(auth('sanctum')->check())
-        {
-            $user_id = auth('sanctum')->user()->id;
-            $order = Order::where('user_id', $user_id)->get();
-            $orderItems= [];
-            foreach($order as $item){
-                $orderItems = Orderitems::where('order_id', $item->id)->get();
-            }
-            return response()->json([
-                'status' => 200,
-                'orderItems' => $orderItems,
-            ]);
-        }
+        $order = Order::where('id', $id)->get();
+        return response()->json([
+            'status' => 200,
+            'order' => $order,
+        ]);
     }
+    
     public function detail($order_id)
     {
         $orderItems = Orderitems::where('order_id',$order_id)->get();
@@ -64,5 +58,16 @@ class OrderController extends Controller
                 'message' => 'Không tìm thấy ID'
             ]);
         }
+    }
+    public function statusOrder($id) {
+        $order = Order::find($id);
+        if($order->status == 0){
+            $order->status = 1;
+        }
+        $order->update();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Cập nhật thành công!',
+        ]);
     }
 }

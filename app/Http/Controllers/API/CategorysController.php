@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categorys;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -83,15 +84,15 @@ class CategorysController extends Controller
                 $category = new Categorys;
                 $category->name = $request->input('name');
                 $category->description = $request->input('description');
-                $category->save();
+                $category->update();
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Category Added Successfully',
+                    'message' => 'Cập nhật thành công',
                 ]);
             } else {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'No category ID found',
+                    'message' => 'Cập nhật thất bại',
                 ]);
             }
         }

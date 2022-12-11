@@ -14,11 +14,18 @@ class Order extends Model
         'name',
         'phone',
         'address',
+        'status',
     ];
+    protected $with = ['user'];
 
     public function orderitems()
     {
         return $this->hasMany(Orderitems::class, 'order_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id','id');
     }
 
 
