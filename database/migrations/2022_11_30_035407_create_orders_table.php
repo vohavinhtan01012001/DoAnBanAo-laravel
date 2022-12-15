@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('address');
+            $table->longText('note')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

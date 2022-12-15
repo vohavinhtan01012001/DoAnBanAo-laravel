@@ -14,6 +14,7 @@ class Order extends Model
         'name',
         'phone',
         'address',
+        'note',
         'status',
     ];
     protected $with = ['user'];

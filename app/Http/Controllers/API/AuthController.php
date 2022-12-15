@@ -49,7 +49,7 @@ class AuthController extends Controller
                 'address' => $request->address,
                 'phone' => $request->phone,
                 'role' => $role,
-                'role_as' => $request->role_as,
+                'role_as' =>  $user->role_as,
                 'message' => 'Chúc mừng bạn đã đăng ký thành công!',
             ]);
         }
@@ -89,6 +89,7 @@ class AuthController extends Controller
                     'address'=>$user->address,
                     'phone' => $user->phone,
                     'role' => $role,
+                    'role_as' => $user->role_as,
                     'message' => 'Chúc mừng bạn đã đăng nhập thành công!',
                 ]);
             }
@@ -105,4 +106,5 @@ class AuthController extends Controller
             'message' => 'Bạn đã đăng xuất thành công!'
         ]);
     }
+   
 }

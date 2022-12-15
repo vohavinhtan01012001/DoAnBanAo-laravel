@@ -35,5 +35,53 @@ class AccountController extends Controller
             ]);
         }
     }
+    public function edit($id)
+    {
+        $User = User::find($id);
+        if ($User) {
+            return response()->json([
+                'status' => 200,
+                'user' => $User
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Category Id Found'
+            ]);
+        }
+    }
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:191',
+            'address' => 'required',
+            'phone' => 'required',
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->errors(),
+            ]);
+        } else {
+            $user = User::find($id);
+            $user->email = $user->email;
+            $user->password = $user->password;
+            $user->role_as = $user->role_as;
+            $user->name = $request->input('name');
+            $user->address = $request->input('address');
+            $user->phone = $request->input('phone');
+            $user->update();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Cập nhật thành công',
+            ]);
+            /* } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Cập nhật thất bại',
+                ]);
+            } */
+        }
+    }
 }

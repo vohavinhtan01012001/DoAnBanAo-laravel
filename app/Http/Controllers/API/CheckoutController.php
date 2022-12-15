@@ -13,29 +13,26 @@ class CheckoutController extends Controller
 {
     public function placeorder(Request $request)
     {
-        if(auth('sanctum')->check())
-        {
+        if (auth('sanctum')->check()) {
             $validator = Validator::make($request->all(), [
-                'name'=>'required|max:191',
-                'phone'=>'required|max:191',
-                'address'=>'required|max:191',
+                'name' => 'required|max:191',
+                'phone' => 'required|max:191',
+                'address' => 'required|max:191',
             ]);
 
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 return response()->json([
-                    'status'=>422,
-                    'errors'=>$validator->errors(),
+                    'status' => 422,
+                    'errors' => $validator->errors(),
                 ]);
-            }
-            else
-            {
+            } else {
                 $user_id = auth('sanctum')->user()->id;
                 $order = new Order;
                 $order->user_id = $user_id;
                 $order->name = $request->name;
                 $order->phone = $request->phone;
                 $order->address = $request->address;
+                $order->note = $request->note;
 
                 /* $order->payment_mode = $request->payment_mode;
                 $order->payment_id = $request->payment_id;
@@ -45,59 +42,82 @@ class CheckoutController extends Controller
                 $cart = Cart::where('user_id', $user_id)->get();
 
                 $orderitems = [];
-                foreach($cart as $item){
-                    if($item->size == "M"){
-                        $orderitems[] = [
-                            'product_id'=>$item->product_id,
-                            'qtyM'=>$item->product_qty,
-                            'price'=>$item->product->price,
-                            'sumPrice'=>$item->product->price * $item->product_qty,
-                        ];
+                foreach ($cart as $item) {
+                    if ($item->size == "M") {
+                        if ($item->product->promotion) {
+                            $orderitems[] = [
+                                'product_id' => $item->product_id,
+                                'qtyM' => $item->product_qty,
+                                'price' => $item->product->price,
+                                'sumPrice' => ((($item->product->price * (100 - $item->product->promotion->discount)) / 100) * $item->product_qty),
+                            ];
+                        } else {
+                            $orderitems[] = [
+                                'product_id' => $item->product_id,
+                                'qtyM' => $item->product_qty,
+                                'price' => $item->product->price,
+                                'sumPrice' => $item->product->price * $item->product_qty,
+                            ];
+                        }
                         $item->product->update([
-                            'quantityM'=>($item->product->quantityM - $item->product_qty)
+                            'quantityM' => ($item->product->quantityM - $item->product_qty)
                         ]);
                     }
-                    if($item->size == "L"){
-                        $orderitems[] = [
-                            'product_id'=>$item->product_id,
-                            'qtyL'=>$item->product_qty,
-                            'price'=>$item->product->price,
-                            'sumPrice'=>$item->product->price * $item->product_qty,
-                        ];
+                    if ($item->size == "L") {
+                        if ($item->product->promotion) {
+                            $orderitems[] = [
+                                'product_id' => $item->product_id,
+                                'qtyL' => $item->product_qty,
+                                'price' => $item->product->price,
+                                'sumPrice' => ((($item->product->price * (100 - $item->product->promotion->discount)) / 100) * $item->product_qty),
+                            ];
+                        } else {
+                            $orderitems[] = [
+                                'product_id' => $item->product_id,
+                                'qtyL' => $item->product_qty,
+                                'price' => $item->product->price,
+                                'sumPrice' => $item->product->price * $item->product_qty,
+                            ];
+                        }
                         $item->product->update([
-                            'quantityL'=>($item->product->quantityL - $item->product_qty)
+                            'quantityL' => ($item->product->quantityL - $item->product_qty)
                         ]);
                     }
-                    if($item->size == "XL"){
-                        $orderitems[] = [
-                            'product_id'=>$item->product_id,
-                            'qtyXL'=>$item->product_qty,
-                            'price'=>$item->product->price,
-                            'sumPrice'=>$item->product->price * $item->product_qty,
-                        ];
+                    if ($item->size == "XL") {
+                        if ($item->product->promotion) {
+                            $orderitems[] = [
+                                'product_id' => $item->product_id,
+                                'qtyXL' => $item->product_qty,
+                                'price' => $item->product->price,
+                                'sumPrice' => ((($item->product->price * (100 - $item->product->promotion->discount)) / 100) * $item->product_qty),
+                            ];
+                        } else {
+                            $orderitems[] = [
+                                'product_id' => $item->product_id,
+                                'qtyXL' => $item->product_qty,
+                                'price' => $item->product->price,
+                                'sumPrice' => $item->product->price * $item->product_qty,                            
+                            ];
+                        }
                         $item->product->update([
-                            'quantityXL'=>($item->product->quantityXL - $item->product_qty)
+                            'quantityXL' => ($item->product->quantityXL - $item->product_qty)
                         ]);
                     }
-
                 }
 
                 $order->orderitems()->createMany($orderitems);
                 Cart::destroy($cart);
 
                 return response()->json([
-                    'status'=>200,
-                    'message'=>'Order Placed Successfully',
+                    'status' => 200,
+                    'message' => 'Order Placed Successfully',
                 ]);
             }
-        }
-        else
-        {
+        } else {
             return response()->json([
-                'status'=> 401,
-                'message'=> 'Login to Continue',
+                'status' => 401,
+                'message' => 'Login to Continue',
             ]);
         }
     }
-
 }

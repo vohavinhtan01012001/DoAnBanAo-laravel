@@ -24,6 +24,10 @@ Route::get('search/{key}', [FrontendController::class, 'search']);
 //account
 Route::get('home-order', [FrontendController::class, 'viewOrder']);
 Route::get('home-orderItems/{id}', [FrontendController::class, 'detailOrderItems']);
+Route::get('edit-account/{id}', [AccountController::class, 'edit']);
+Route::put('update-account/{id}', [AccountController::class, 'update']);
+Route::get('view-accountAdd', [AccountController::class, 'index']);
+
 
 
 //cart
@@ -32,6 +36,7 @@ Route::get('cart', [CartController::class, 'viewcart']);
 Route::put('cart-updatequantity/{cart_id}/{scope}', [CartController::class, 'updatequantity']);
 Route::delete('delete-cartitem/{cart_id}', [CartController::class, 'deleteCartitem']);
 
+//order
 Route::post('place-order', [CheckoutController::class, 'placeorder']);
 
 //Admin
