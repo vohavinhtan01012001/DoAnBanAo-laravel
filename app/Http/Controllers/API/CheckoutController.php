@@ -110,13 +110,13 @@ class CheckoutController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Order Placed Successfully',
+                    'message' => 'Cảm ơn bạn đã mua sản phẩm của chúng tôi!',
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => 'Login to Continue',
+                'message' => 'Đăng nhập để tiếp tục',
             ]);
         }
     }

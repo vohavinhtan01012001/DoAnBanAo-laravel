@@ -106,5 +106,32 @@ class AuthController extends Controller
             'message' => 'Bạn đã đăng xuất thành công!'
         ]);
     }
+
+    public function edit(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:191',
+            'address' => 'required',
+            'phone' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'validation_errors' => $validator->errors(),
+            ]);
+        } else {
+            $user = Auth::user();
+            $user->name = $request->input('name');
+            $user->address = $request->input('address');
+            $user->phone = $request->input('phone');
+           /*  $user->save(); */
+            return response()->json([
+                'status' => 200,
+                'username' => $user->name,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'message' => 'Chúc mừng bạn đã sửa thành công!',
+            ]);
+        }
+    }
    
 }

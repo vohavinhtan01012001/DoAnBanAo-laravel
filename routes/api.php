@@ -15,6 +15,7 @@ use App\Http\Controllers\API\PromotionController;
 //Frontend
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('edit-user', [AuthController::class, 'edit']);
 Route::get('home-product', [FrontendController::class, 'indexProduct']);
 Route::get('home-category', [FrontendController::class, 'indexCategory']);
 Route::get('fetchproducts/{name}', [FrontendController::class, 'product']);
