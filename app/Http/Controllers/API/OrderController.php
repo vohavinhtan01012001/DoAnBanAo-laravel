@@ -64,6 +64,9 @@ class OrderController extends Controller
         if($order->status == 0){
             $order->status = 1;
         }
+        if($order->status == 1 && $order->pay == 0){
+            $order->pay = 1;
+        }
         $order->update();
         return response()->json([
             'status' => 200,

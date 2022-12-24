@@ -21,7 +21,8 @@ class CreateOrdersTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->longText('note')->nullable();
-            $table->integer('status');
+            $table->integer('status')->default(0);
+            $table->integer('pay')->default(0);
             $table->timestamps();
         });
     }

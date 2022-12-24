@@ -81,7 +81,6 @@ class CategorysController extends Controller
         } else {
             $category = Categorys::find($id);
             if ($category) {
-                $category = new Categorys;
                 $category->name = $request->input('name');
                 $category->description = $request->input('description');
                 $category->update();
